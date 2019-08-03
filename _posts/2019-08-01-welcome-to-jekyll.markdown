@@ -1,25 +1,33 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
-date:   2019-08-01 17:52:41 +0800
+title:  "第一篇博客!"
+date:   2019-08-03 14:00:00 +0800
 categories: jekyll update
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+一天，偶然的机会中，看到同学的朋友圈发了条消息。那是一张证书的照片，一张coursera颁发的证书，一张机器学习的证书。就是这么一张证书，把我给点燃了，我要学习人工智能。从哪儿开始呢？就从获得那张证书开始。
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+那张证书是吴恩达的机器学习入门课给发的。网上看过不少资料，都极力的推荐使用这门课作为机器学习的入门课。原因在于，这门课很浅显，没有复杂的公式推导，课程中间会穿插小练习，课后会有作业，都是玩具性质的小练习。
 
-Jekyll also offers powerful support for code snippets:
+看到这些介绍，没有不动心的，动手呗。
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+在看这个教程之前，也看了些机器学习相关的科普类的文章，书籍，所以对机器学习有那么点模糊的概念，但也就这点概念了。按照我的理解，机器学习就是给机器数据，让它从中发现点什么，而且发现的这点东西还能用来做预测。
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+就带着这么点资源，我就上路了。
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+开始的几节课下来，我有这么个感觉，这些不就是当年我们学习的概率吗？高级点，不就是随机过程吗？样本，总体，均值，方差，回归，熟悉的概念，但依然模糊，这些概念的定义，我基本上是忘光了。工作当中很少用到它们，所以也就注定了，我还是低水平的程序员。
+
+捡起这些概念，心中有那么点满足和欣慰，这让我对机器学习又多了那么点亲切感，像见到亲人了。
+
+没堂课，深入浅出，内容很紧凑，没有废话，中间穿插的小练习，只要你刚才听了，一般都是能答出来的，而且现场给反馈，告诉你答对没有。课后的习题，难度层次也比较清晰。如果概念模糊，可以结合讲义一起看，基本也都能答出来。只有答道80分才能过关，一次没过，可以多试几次。其实分数什么的都不重要，关键是你要理解其中的概念。编程题有不少，都是要实操的，但是题目本身很简单，而且还会有hint,这一下子降低了题目的难度。每当屏幕上出现期望输出时，很有成就感。
+
+每节课都有指定的学习时间，所有的任务需要在规定时间内完成，一般是一个礼拜，所以能坚持走完这个课程，还是需要点自制力的。
+
+经过3-4个月的时间，课程基本学完，知识点基本都走到。很多概念，也仅仅限于知道有这个概念，至于其背后的原理和数学推导我还是不会。但有了这些知识点之后，再去看机器学习的相关文章，一下子就轻松了很多，不再是像看天书一样，因为我掌握这个领域的基本语言，可以沟通了。而且还掌握了一个我认为整个课程中最重要的概念，cost function，我们的目标就是最小化这个cost function，由此我们就建立了我们的模型（参数调整完毕）。
+
+证书到手，开心。
+
+接下来的时间里，我也在思索，后续我该怎么深入。万能的google此时有发挥了它的作用，我找到了一堆的链接和推荐，用作后续深入学习的材料。
+
+大名鼎鼎的CS109,是我现在在啃的内容，三位老师讲的不错，但是太蜻蜓点水，速度也很快，可能该课的前提就是学生们应该有一定的概率统计的基础。
+
+先啃着吧，实在难以为继，搞些概率统计的书来看看。

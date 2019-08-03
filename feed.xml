@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="/eric/feed.xml" rel="self" type="application/atom+xml" /><link href="/eric/" rel="alternate" type="text/html" /><updated>2019-08-03T06:33:53+00:00</updated><id>/eric/feed.xml</id><title type="html">Your awesome title</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">第一篇博客!</title><link href="/eric/jekyll/update/2019/08/03/welcome-to-jekyll.html" rel="alternate" type="text/html" title="第一篇博客!" /><published>2019-08-03T06:00:00+00:00</published><updated>2019-08-03T06:00:00+00:00</updated><id>/eric/jekyll/update/2019/08/03/welcome-to-jekyll</id><content type="html" xml:base="/eric/jekyll/update/2019/08/03/welcome-to-jekyll.html">&lt;p&gt;一天，偶然的机会中，看到同学的朋友圈发了条消息。那是一张证书的照片，一张coursera颁发的证书，一张机器学习的证书。就是这么一张证书，把我给点燃了，我要学习人工智能。从哪儿开始呢？就从获得那张证书开始。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="/eric/feed.xml" rel="self" type="application/atom+xml" /><link href="/eric/" rel="alternate" type="text/html" /><updated>2019-08-03T06:41:50+00:00</updated><id>/eric/feed.xml</id><title type="html">Your awesome title</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">第一篇博客!</title><link href="/eric/jekyll/update/2019/08/03/welcome-to-jekyll.html" rel="alternate" type="text/html" title="第一篇博客!" /><published>2019-08-03T06:00:00+00:00</published><updated>2019-08-03T06:00:00+00:00</updated><id>/eric/jekyll/update/2019/08/03/welcome-to-jekyll</id><content type="html" xml:base="/eric/jekyll/update/2019/08/03/welcome-to-jekyll.html">&lt;p&gt;一天，偶然的机会中，看到同学的朋友圈发了条消息。那是一张证书的照片，一张coursera颁发的证书，一张机器学习的证书。就是这么一张证书，把我给点燃了，我要学习人工智能。从哪儿开始呢？就从获得那张证书开始。&lt;/p&gt;
 
 &lt;p&gt;那张证书是吴恩达的机器学习入门课给发的。网上看过不少资料，都极力的推荐使用这门课作为机器学习的入门课。原因在于，这门课很浅显，没有复杂的公式推导，课程中间会穿插小练习，课后会有作业，都是玩具性质的小练习。&lt;/p&gt;
 
@@ -12,7 +12,7 @@
 
 &lt;p&gt;捡起这些概念，心中有那么点满足和欣慰，这让我对机器学习又多了那么点亲切感，像见到亲人了。&lt;/p&gt;
 
-&lt;p&gt;没堂课，深入浅出，内容很紧凑，没有废话，中间穿插的小练习，只要你刚才听了，一般都是能答出来的，而且现场给反馈，告诉你答对没有。课后的习题，难度层次也比较清晰。如果概念模糊，可以结合讲义一起看，基本也都能答出来。只有答道80分才能过关，一次没过，可以多试几次。其实分数什么的都不重要，关键是你要理解其中的概念。编程题有不少，都是要实操的，但是题目本身很简单，而且还会有hint,这一下子降低了题目的难度。每当屏幕上出现期望输出时，很有成就感。&lt;/p&gt;
+&lt;p&gt;每堂课，深入浅出，内容很紧凑，没有废话，中间穿插的小练习，只要你刚才听了，一般都是能答出来的，而且现场给反馈，告诉你答对没有。课后的习题，难度层次也比较清晰。如果概念模糊，可以结合讲义一起看，基本也都能答出来。只有得到80分才能过关，一次没过，可以多试几次。其实分数什么的都不重要，关键是你要理解其中的概念。编程题有不少，都是要实操的，但是题目本身很简单，而且还会有hint,这一下子降低了题目的难度。每当屏幕上出现期望输出时，很有成就感。&lt;/p&gt;
 
 &lt;p&gt;每节课都有指定的学习时间，所有的任务需要在规定时间内完成，一般是一个礼拜，所以能坚持走完这个课程，还是需要点自制力的。&lt;/p&gt;
 
@@ -20,8 +20,8 @@
 
 &lt;p&gt;证书到手，开心。&lt;/p&gt;
 
-&lt;p&gt;接下来的时间里，我也在思索，后续我该怎么深入。万能的google此时有发挥了它的作用，我找到了一堆的链接和推荐，用作后续深入学习的材料。&lt;/p&gt;
+&lt;p&gt;接下来的时间里，我也在思索，后续我该怎么深入。万能的google此时又发挥了它的作用，我找到了一堆链接和推荐，作为后续深入学习的材料。&lt;/p&gt;
 
-&lt;p&gt;大名鼎鼎的CS109,是我现在在啃的内容，三位老师讲的不错，但是太蜻蜓点水，速度也很快，可能该课的前提就是学生们应该有一定的概率统计的基础。&lt;/p&gt;
+&lt;p&gt;大名鼎鼎的CS109,是我现在在啃的内容，三位老师讲的不错，但是太蜻蜓点水，速度也很快，可能还是需要点基础的。&lt;/p&gt;
 
 &lt;p&gt;先啃着吧，实在难以为继，搞些概率统计的书来看看。&lt;/p&gt;</content><author><name></name></author><summary type="html">一天，偶然的机会中，看到同学的朋友圈发了条消息。那是一张证书的照片，一张coursera颁发的证书，一张机器学习的证书。就是这么一张证书，把我给点燃了，我要学习人工智能。从哪儿开始呢？就从获得那张证书开始。</summary></entry></feed>

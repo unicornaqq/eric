@@ -1,0 +1,186 @@
+<h3 id="起点">起点</h3>
+
+<p>在打开这个应用的时候，可以看到一架飞机，那总归是一个图片，一般来说对于一个软件工程来讲，这类软件要用到的图片总归是放在资源文件夹中的。在这个新开的项目中，有个叫art.scnassets的文件夹，就它的字面意义来看，这个应该就是专门存放场景资料的文件夹。</p>
+
+<p>在这个目录中，有一个叫ship.scn的文件。我就用这个文件名去搜索，看是哪块代码使用了这个场景资源。</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create a new scene</span>
+        <span class="k">let</span> <span class="nv">scene</span> <span class="o">=</span> <span class="kt">SCNScene</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"art.scnassets/ship.scn”)!
+</span></code></pre></div></div>
+
+<h3 id="scene">Scene</h3>
+<p>上面的这段代码创建了一个SCNScene的对象，这个对象Scenekit中的一部分，用来描述一个3d场景。这里的named，制定了我们需要在image中寻找的文件的名字，关于named到底是什么意思，后续还需要在研究一下。</p>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />named是什么意思？</li>
+</ul>
+
+<h3 id="viewcontroller">ViewController</h3>
+<p>创建scene的代码就在<strong>ViewController</strong>这个类中，所有接下来我们就来看一下这个类的内容。</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt">ARSCNViewDelegate</span> <span class="p">{</span>
+
+    <span class="c1">//该类有个成员变量：sceneView，</span>
+    <span class="c1">//注意它的类别是ARSCNView，我们在后面会重点讨论这个类的情况。</span>
+    <span class="kd">@IBOutlet</span> <span class="k">var</span> <span class="nv">sceneView</span><span class="p">:</span> <span class="kt">ARSCNView</span><span class="o">!</span>
+    
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">//这里的super指的是UIViewController</span>
+        <span class="c1">//而且这个函数是在-loadView之后调用</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+        
+        <span class="c1">//设置当前view（ARSCNView）的delegate</span>
+        <span class="c1">//将其设置为当前的ViewController，这就是为什么ViewController也要实现ARSCNViewDelegate这个protocol的原因。</span>
+        <span class="n">sceneView</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="k">self</span>
+        
+        <span class="c1">// Show statistics such as fps and timing information</span>
+        <span class="n">sceneView</span><span class="o">.</span><span class="n">showsStatistics</span> <span class="o">=</span> <span class="kc">true</span>
+        
+        <span class="c1">// Create a new scene</span>
+        <span class="k">let</span> <span class="nv">scene</span> <span class="o">=</span> <span class="kt">SCNScene</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"art.scnassets/ship.scn"</span><span class="p">)</span><span class="o">!</span>
+        
+        <span class="c1">//将场景添加到视图中去。</span>
+        <span class="n">sceneView</span><span class="o">.</span><span class="n">scene</span> <span class="o">=</span> <span class="n">scene</span>
+    <span class="p">}</span>
+    
+    <span class="c1">//视图即将被显示的时候调用。</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+        
+        <span class="c1">// Create a session configuration</span>
+        <span class="k">let</span> <span class="nv">configuration</span> <span class="o">=</span> <span class="kt">ARWorldTrackingConfiguration</span><span class="p">()</span>
+
+        <span class="c1">// Run the view's session</span>
+        <span class="n">sceneView</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="nf">run</span><span class="p">(</span><span class="n">configuration</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewWillDisappear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewWillDisappear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+        
+        <span class="c1">// Pause the view's session</span>
+        <span class="n">sceneView</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="nf">pause</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="c1">// MARK: - ARSCNViewDelegate</span>
+    
+<span class="cm">/*
+    // Override to create and configure nodes for anchors added to the view's session.
+    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -&gt; SCNNode? {
+        let node = SCNNode()
+     
+        return node
+    }
+*/</span>
+    
+    <span class="kd">func</span> <span class="nf">session</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">ARSession</span><span class="p">,</span> <span class="n">didFailWithError</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Present an error message to the user</span>
+        
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">sessionWasInterrupted</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">ARSession</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Inform the user that the session has been interrupted, for example, by presenting an overlay</span>
+        
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">sessionInterruptionEnded</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">ARSession</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Reset tracking and/or remove existing anchors if consistent tracking is required</span>
+        
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="arscnview">ARSCNView</h3>
+<p>该view是arkit中的一部分，是为了在照相机镜头捕捉到的真实世界的图像中叠加的3d事物。</p>
+
+<p>前面说过，这个view是两个世界的叠加，一个是现实世界，一个是虚拟世界。现实世界是背景，而虚拟世界是前景。在这个view中，两个世界的坐标系统是对应的，这也许就是为什么AR中能产生锚定的效果。而且，随着手机的移动，虚拟的世界也会跟着调整。</p>
+
+<h3 id="delegate">delegate</h3>
+<p>在代码的很多地方都能看到delegate。delegate指向的是一个用户自己提供的对象。这个对象在3d场景渲染的过程中（有很多的步骤），会收到一些特定的事件通知。这就给用户提供了一个控制渲染的机会（添加自己想要渲染的内容，或者做一些基于每一帧画幅的逻辑处理）。</p>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />ARSCNView</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />@IBOutlet</li>
+</ul>
+
+<h3 id="关于怎么写自己的delegate">关于怎么写自己的delegate</h3>
+<p>在上面的示例项目中，有一段是要自己来实现的（注释掉了），于是我就参考其他的例子，借鉴了一下人家是如何实现的。</p>
+
+<p>这个项目来自于ARKit2.0-Prototype。</p>
+
+<p>接下来我们就来看下这段代码的意思。</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// MARK: - ARSCNViewDelegate</span>
+    <span class="c1">//根据官方文档的解释，这个函数是在节点被添加到锚点完成之后会调用的函数。</span>
+    <span class="kd">func</span> <span class="nf">renderer</span><span class="p">(</span><span class="n">_</span> <span class="nv">renderer</span><span class="p">:</span> <span class="kt">SCNSceneRenderer</span><span class="p">,</span> <span class="n">didAdd</span> <span class="nv">node</span><span class="p">:</span> <span class="kt">SCNNode</span><span class="p">,</span> <span class="k">for</span> <span class="nv">anchor</span><span class="p">:</span> <span class="kt">ARAnchor</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">alertController</span> <span class="o">=</span> <span class="kt">UIAlertController</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"Found Object"</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="s">"This is your object."</span><span class="p">,</span> <span class="nv">preferredStyle</span><span class="p">:</span> <span class="o">.</span><span class="n">alert</span><span class="p">)</span>
+        <span class="k">let</span> <span class="nv">action1</span> <span class="o">=</span> <span class="kt">UIAlertAction</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"OK"</span><span class="p">,</span> <span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="k">default</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="nv">action</span><span class="p">:</span><span class="kt">UIAlertAction</span><span class="p">)</span> <span class="k">in</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"You've pressed default"</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">alertController</span><span class="o">.</span><span class="nf">addAction</span><span class="p">(</span><span class="n">action1</span><span class="p">)</span>
+        <span class="k">self</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">alertController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Override to create and configure nodes for anchors added to the view's session.</span>
+    <span class="c1">//一下这段代码就是apple自带的默认代码，参数，甚至包括第一行let代码都不要该，我们只需要实现后面的代码即可。这段代码用来创建一个节点。</span>
+    <span class="kd">func</span> <span class="nf">renderer</span><span class="p">(</span><span class="n">_</span> <span class="nv">renderer</span><span class="p">:</span> <span class="kt">SCNSceneRenderer</span><span class="p">,</span> <span class="n">nodeFor</span> <span class="nv">anchor</span><span class="p">:</span> <span class="kt">ARAnchor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SCNNode</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">node</span> <span class="o">=</span> <span class="kt">SCNNode</span><span class="p">()</span>
+
+        <span class="c1">//这个anchor是外面传进来的参数。as?向下转型（基类转子类，与as!的差别在于，如果转换失败，将会转变成nil）。所以这里的逻辑是，先尝试从ARAnhor转成ARImageAnchor，如果转成功了，就继续处理，如果没有转成功的话，就走到else分支上去了。</span>
+        <span class="c1">//ARImageAnchor: 代表一张图片的锚点。</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">imageAnchor</span> <span class="o">=</span> <span class="n">anchor</span> <span class="k">as?</span> <span class="kt">ARImageAnchor</span> <span class="p">{</span>
+            <span class="c1">//先创建一个平面，该平面可以设置它的宽度和高度，只有一面可见。它是scenekit的一部分。</span>
+            <span class="k">let</span> <span class="nv">plane</span> <span class="o">=</span> <span class="kt">SCNPlane</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="n">imageAnchor</span><span class="o">.</span><span class="n">referenceImage</span><span class="o">.</span><span class="n">physicalSize</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="n">imageAnchor</span><span class="o">.</span><span class="n">referenceImage</span><span class="o">.</span><span class="n">physicalSize</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+            <span class="c1">//firstMaterial?: Optional Chaining, firstMaterial可能为空，如果为空的话就直接退出，不会造成runtime error。</span>
+            <span class="n">plane</span><span class="o">.</span><span class="n">firstMaterial</span><span class="p">?</span><span class="o">.</span><span class="n">diffuse</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="p">(</span><span class="nv">white</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">)</span>
+            <span class="c1">//SCNMaterial： 一个material就确定了如何渲染一个3d物体，它规定了颜色和相关的文字。</span>
+            <span class="k">let</span> <span class="nv">material</span> <span class="o">=</span> <span class="kt">SCNMaterial</span><span class="p">()</span>
+            <span class="c1">//diffuse光照条件。</span>
+            <span class="n">material</span><span class="o">.</span><span class="n">diffuse</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="n">viewObj</span>
+            <span class="n">plane</span><span class="o">.</span><span class="n">materials</span> <span class="o">=</span> <span class="p">[</span><span class="n">material</span><span class="p">]</span>
+            <span class="k">let</span> <span class="nv">planeNode</span> <span class="o">=</span> <span class="kt">SCNNode</span><span class="p">(</span><span class="nv">geometry</span><span class="p">:</span> <span class="n">plane</span><span class="p">)</span>
+            <span class="n">planeNode</span><span class="o">.</span><span class="n">eulerAngles</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
+            
+            <span class="n">node</span><span class="o">.</span><span class="nf">addChildNode</span><span class="p">(</span><span class="n">planeNode</span><span class="p">)</span>
+            
+        <span class="p">}</span>
+        <span class="k">else</span><span class="p">{</span>
+            <span class="c1">//planeNode.eulerAngles = SCNVector3Make(0,0,Float(-M_PI_2))</span>
+            
+            <span class="k">let</span> <span class="nv">shipScene</span> <span class="o">=</span> <span class="kt">SCNScene</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"art.scnassets/ArrowB.scn"</span><span class="p">)</span><span class="o">!</span>
+            <span class="k">let</span> <span class="nv">shipNode</span> <span class="o">=</span> <span class="n">shipScene</span><span class="o">.</span><span class="n">rootNode</span><span class="o">.</span><span class="n">childNodes</span><span class="o">.</span><span class="n">first</span><span class="o">!</span>
+            <span class="n">shipNode</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span>  <span class="kt">SCNVector3</span><span class="o">.</span><span class="nf">positionFromTransform</span><span class="p">(</span><span class="n">anchor</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
+            <span class="n">shipNode</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.25</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">shipNode</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+            <span class="n">sceneView</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">rootNode</span><span class="o">.</span><span class="nf">addChildNode</span><span class="p">(</span><span class="n">shipNode</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">node</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="renderer">renderer</h3>
+<p>这个是协议ARSCNViewDelegate提供的接口函数，从ARSCNViewDelegate的代码中可以看到，它有好几套同名接口，只是参数不同，使用的场景也不同。</p>
+
+<ul>
+  <li>在给定的锚点使用定制化的节点（node）。该节点会被在场景中被创建出来。这个实现就是上述代码示例中的第二个renderer的实现。
+    <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">renderer</span><span class="p">(</span><span class="n">_</span> <span class="nv">renderer</span><span class="p">:</span> <span class="kt">SCNSceneRenderer</span><span class="p">,</span> <span class="n">nodeFor</span> <span class="nv">anchor</span><span class="p">:</span> <span class="kt">ARAnchor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SCNNode</span><span class="p">?</span>
+</code></pre></div>    </div>
+  </li>
+  <li>在一个新的节点被映射到给定锚点的时候该函数会被调用。注意那个didAdd的符号。
+    <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">renderer</span><span class="p">(</span><span class="n">_</span> <span class="nv">renderer</span><span class="p">:</span> <span class="kt">SCNSceneRenderer</span><span class="p">,</span> <span class="n">didAdd</span> <span class="nv">node</span><span class="p">:</span> <span class="kt">SCNNode</span><span class="p">,</span> <span class="k">for</span> <span class="nv">anchor</span><span class="p">:</span> <span class="kt">ARAnchor</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>锚点更新了，节点也需要更新，此时该函数会被调用。
+    <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">renderer</span><span class="p">(</span><span class="n">_</span> <span class="nv">renderer</span><span class="p">:</span> <span class="kt">SCNSceneRenderer</span><span class="p">,</span> <span class="n">willUpdate</span> <span class="nv">node</span><span class="p">:</span> <span class="kt">SCNNode</span><span class="p">,</span> <span class="k">for</span> <span class="nv">anchor</span><span class="p">:</span> <span class="kt">ARAnchor</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>锚点更新了，节点也更新了，此时该函数会被调用。
+    <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">renderer</span><span class="p">(</span><span class="n">_</span> <span class="nv">renderer</span><span class="p">:</span> <span class="kt">SCNSceneRenderer</span><span class="p">,</span> <span class="n">didUpdate</span> <span class="nv">node</span><span class="p">:</span> <span class="kt">SCNNode</span><span class="p">,</span> <span class="k">for</span> <span class="nv">anchor</span><span class="p">:</span> <span class="kt">ARAnchor</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>当节点被从制定的锚点上被移除了，此时该函数会被调用。
+    <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">renderer</span><span class="p">(</span><span class="n">_</span> <span class="nv">renderer</span><span class="p">:</span> <span class="kt">SCNSceneRenderer</span><span class="p">,</span> <span class="n">didRemove</span> <span class="nv">node</span><span class="p">:</span> <span class="kt">SCNNode</span><span class="p">,</span> <span class="k">for</span> <span class="nv">anchor</span><span class="p">:</span> <span class="kt">ARAnchor</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="aranchor">ARAnchor</h3>
+<p>ARAnchor代表在一个3d场景中的位置和朝向。在这个类的内部，有个矩阵，该矩阵定义了rotation是怎么做的。</p>

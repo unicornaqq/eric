@@ -1,4 +1,147 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="/eric/feed.xml" rel="self" type="application/atom+xml" /><link href="/eric/" rel="alternate" type="text/html" /><updated>2019-08-29T15:35:34+00:00</updated><id>/eric/feed.xml</id><title type="html">Eric’s Study Notes</title><subtitle>Learning notes for AI, Machine Learning, Knowledge Management, Study Efficiency.</subtitle><entry><title type="html">Arkit Project Ar Coreml</title><link href="/eric/2019/08/29/arkit-project-ar-coreml.html" rel="alternate" type="text/html" title="Arkit Project Ar Coreml" /><published>2019-08-29T00:00:00+00:00</published><updated>2019-08-29T00:00:00+00:00</updated><id>/eric/2019/08/29/arkit-project-ar-coreml</id><content type="html" xml:base="/eric/2019/08/29/arkit-project-ar-coreml.html">&lt;h3 id=&quot;arkit和coreml的组合&quot;&gt;arkit和coreml的组合&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="/eric/feed.xml" rel="self" type="application/atom+xml" /><link href="/eric/" rel="alternate" type="text/html" /><updated>2019-08-31T15:59:56+00:00</updated><id>/eric/feed.xml</id><title type="html">Eric’s Study Notes</title><subtitle>Learning notes for AI, Machine Learning, Knowledge Management, Study Efficiency.</subtitle><entry><title type="html">Arkit Project Ar Coreml 3</title><link href="/eric/2019/08/31/arkit-project-ar-coreml-3.html" rel="alternate" type="text/html" title="Arkit Project Ar Coreml 3" /><published>2019-08-31T00:00:00+00:00</published><updated>2019-08-31T00:00:00+00:00</updated><id>/eric/2019/08/31/arkit-project-ar-coreml-3</id><content type="html" xml:base="/eric/2019/08/31/arkit-project-ar-coreml-3.html">&lt;p&gt;今天我们来研究下另外一个项目的代码： Gesture-Recognition-101-CoreML-ARKit。&lt;/p&gt;
+
+&lt;p&gt;这个项目的主要功能：捕捉手势，在屏幕的中央来显示对应的动画手势。&lt;/p&gt;
+
+&lt;h3 id=&quot;viewcontroller&quot;&gt;ViewController&lt;/h3&gt;
+
+&lt;p&gt;我们还是从类ViewController的实现开始讲起。&lt;/p&gt;
+
+&lt;p&gt;在这个类中，我们需要如下的几个要素：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;ARSCNView&lt;/li&gt;
+  &lt;li&gt;dispatchqueue&lt;/li&gt;
+  &lt;li&gt;request&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;viewDidload&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;viewWillAppear&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;viewWillDisappear&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;renderer&lt;/li&gt;
+  &lt;li&gt;loopCoreMLUpdate&lt;/li&gt;
+  &lt;li&gt;updateCoreML&lt;/li&gt;
+  &lt;li&gt;classificationCompleteHandler&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;以上函数中，加粗的是重新实现了父类的方法，实现定制化。其他的函数都是该类内部函数，供其自己使用。&lt;/p&gt;
+
+&lt;h3 id=&quot;arscnview&quot;&gt;ARSCNView&lt;/h3&gt;
+&lt;p&gt;这个是arkit项目的必备品。
+结合我们之前看过的几个项目，我们可以大概总结一下对这个对象进行的操作。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;指定delegate，将其关联到ViewController&lt;/li&gt;
+  &lt;li&gt;关联指定的场景，在ARkit中，我们使用的几乎都是SCNScene。&lt;/li&gt;
+  &lt;li&gt;启动/终止session。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;scnscene&quot;&gt;SCNScene&lt;/h4&gt;
+&lt;p&gt;这是一个3d场景，3d场景中的物体对象是以node的形式组织起来的。&lt;/p&gt;
+
+&lt;h3 id=&quot;dispatchqueue&quot;&gt;dispatchqueue&lt;/h3&gt;
+&lt;p&gt;本章，我们将详细讨论下dispatchqueue，因为它在arkit+coreml的项目中很重要。&lt;/p&gt;
+
+&lt;p&gt;在apple的开发网站上，dispatchqueue的定义是这样子的。&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;An object that manages the execution of tasks serially or concurrently on your app’s main thread or on a background thread.
+一个对象，它可以管理任务的执行，可以是顺序执行，也可以是并发执行，任务是在app的主线程或者后台线程上执行的。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;该队列的几个特性&quot;&gt;该队列的几个特性&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;像所有的队列一样，它是先进先出的。&lt;/li&gt;
+  &lt;li&gt;提交给该队列的任务是由系统提供的一个线程池来执行
+    &lt;ul&gt;
+      &lt;li&gt;除了代表你的app的主线程的那个dispatchqueue之外，系统不能保证你提交的任务是给哪个线程去执行的&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;需要注意的是：不要在主线程上顺序的执行一个任务，否则会造成死锁。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;既然是线程池，那么就会面临线程池中的线程资源被用光的问题，那么如何才能避免呢？&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;如果你的任务想并发执行，那么尽量确保你的任务不要block其所在的线程
+    &lt;ul&gt;
+      &lt;li&gt;因为线程一旦被堵住，系统就会使用线程池中的其他线程来执行queue中的其他任务。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;尽量不要给每个类创建过多的私有并发dispatchqueue，如果可能的话，尽量将任务提交给全局并发dispatchqueue。
+    &lt;ul&gt;
+      &lt;li&gt;那样既可以保证队列的顺序化行为，同时又不至于引发线程资源紧张的问题。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;所以在我们这个项目中，创建了一个私有的queue。&lt;/p&gt;
+
+&lt;h3 id=&quot;request&quot;&gt;request&lt;/h3&gt;
+&lt;p&gt;这是一个request的数组，里边放的呢是VNRequest，VNRequest是个基类，是不能被实例化的。但是它的各种子类是可以被实例化的，在本项目中用到的VNCoreMLRequest就是其中的一种，它是VNImageBasedRequest的子类。所以这几个类之间的关系是。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;graph TD
+A[VNCoreMLRequest] --&amp;gt; |继承| B(VNImageBasedRequest)
+B --&amp;gt; |继承| C[VNRequest]
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;VNCoreMLRequest的主要功能就是使用模型进行预测，并将结果返回。&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;viewdidload&quot;&gt;viewDidLoad&lt;/h3&gt;
+&lt;p&gt;视角/视图加载完成之后会调用这个函数，那么在这个函数中会做什么事情呢？&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;调用父类的同名函数&lt;/li&gt;
+  &lt;li&gt;将视图的delegate设置为当前的viewController&lt;/li&gt;
+  &lt;li&gt;为视图创建场景&lt;/li&gt;
+  &lt;li&gt;选择模型&lt;/li&gt;
+  &lt;li&gt;创建VNCoreMLRequest
+    &lt;ul&gt;
+      &lt;li&gt;指定模型&lt;/li&gt;
+      &lt;li&gt;指定结果处理函数&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;开始模型处理的循环&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;函数loopcoremlupdate&quot;&gt;函数loopCoreMLUpdate&lt;/h3&gt;
+&lt;p&gt;这个函数做的事情从代码表面来看很简单，它给dispatchqueue提交了一个任务。任务是以代码块的形式提交的。在该代码块中，&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;触发request来使用模型处理数据
+    &lt;ul&gt;
+      &lt;li&gt;在本项目中，就是相机截取到的image&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;递归的调用自己，使得循环继续。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;正如前面提到的，在本函数中，使用的async的方式向dispatchQueue提交任务，之所以如此，是因为在使用模型来处理相机截取的image是需要花时间的，同步执行的话势必会将线程堵死，此时的表现就是视角中的图片死掉了。&lt;/p&gt;
+
+&lt;p&gt;既然是异步处理，那自然需要提供在模型处理完数据之后的处理函数。该处理函数在定义创建request的时候就已经指定好了。&lt;/p&gt;
+
+&lt;h3 id=&quot;结果处理函数&quot;&gt;结果处理函数&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;读取在request的结果中保存着的模型处理的结果
+    &lt;ul&gt;
+      &lt;li&gt;根据模型的不同，返回的内容也会不同，这个是由模型决定的&lt;/li&gt;
+      &lt;li&gt;在本项目中，模型是用来进行分类的，所有处理的结果当然就是模型从当前的图像中识别出来的物体。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;将模型处理结果按照你自己想要的方式进行拼接，处理。&lt;/li&gt;
+  &lt;li&gt;渲染你的结果&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;结果的最终渲染&quot;&gt;结果的最终渲染&lt;/h3&gt;
+&lt;p&gt;结果的渲染是提交给全局的main dispatchQueue进行处理的，而且是以异步的方式（这主要是为了防止死锁）。注意，此处提交的也是一个序列化的代码块。&lt;/p&gt;
+
+&lt;p&gt;所以这里有两个queue，一个queue是私有queue，专门用来处理request。一个是全局的主queue，这个queue专门用来在拿到了处理结果之后，进行结果的渲染。&lt;/p&gt;
+
+&lt;p&gt;在拿到了处理结果之后，将额外处理完的文字图像赋值给了两个特殊的对象，debugTextView和textOverlay。&lt;/p&gt;
+
+&lt;p&gt;开始的时候，不是很理解，问题在于，我这里只是做了赋值，那什么时候显示到屏幕上了，是不是需要另外去渲染。后来发现，其实并不需要，特殊之处就在于debugTextView和textOverlay就像dock一样，它是一直在屏幕上的。我们在后期给他们赋值会直接显示在dock中，不需要另外的渲染。&lt;/p&gt;
+
+&lt;p&gt;至此，项目研究完毕。&lt;/p&gt;
+
+&lt;h3 id=&quot;后续&quot;&gt;后续&lt;/h3&gt;
+&lt;p&gt;在后续的章节会再分析一两个项目，弄清楚要实现一个AR+CoreML要实现哪些功能/函数。
+另外，研究一下不同的模型对应的接口，看看他们之间的异同之处，为后续将自己训练的模型融入到app中捉准备。&lt;/p&gt;</content><author><name></name></author><summary type="html">今天我们来研究下另外一个项目的代码： Gesture-Recognition-101-CoreML-ARKit。</summary></entry><entry><title type="html">Arkit Project Ar Coreml</title><link href="/eric/2019/08/29/arkit-project-ar-coreml.html" rel="alternate" type="text/html" title="Arkit Project Ar Coreml" /><published>2019-08-29T00:00:00+00:00</published><updated>2019-08-29T00:00:00+00:00</updated><id>/eric/2019/08/29/arkit-project-ar-coreml</id><content type="html" xml:base="/eric/2019/08/29/arkit-project-ar-coreml.html">&lt;h3 id=&quot;arkit和coreml的组合&quot;&gt;arkit和coreml的组合&lt;/h3&gt;
 &lt;p&gt;这个是另外一个arkit的项目代码，这个项目的特别之处在于它结合了arkit和coreml两个元素，所以相对之前分析的那个纯arkit的项目而言，负责度增加了不少。&lt;/p&gt;
 
 &lt;h3 id=&quot;函数调用关系&quot;&gt;函数调用关系&lt;/h3&gt;

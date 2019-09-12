@@ -1,4 +1,104 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="/eric/feed.xml" rel="self" type="application/atom+xml" /><link href="/eric/" rel="alternate" type="text/html" /><updated>2019-08-31T15:59:56+00:00</updated><id>/eric/feed.xml</id><title type="html">Eric’s Study Notes</title><subtitle>Learning notes for AI, Machine Learning, Knowledge Management, Study Efficiency.</subtitle><entry><title type="html">Arkit Project Ar Coreml 3</title><link href="/eric/2019/08/31/arkit-project-ar-coreml-3.html" rel="alternate" type="text/html" title="Arkit Project Ar Coreml 3" /><published>2019-08-31T00:00:00+00:00</published><updated>2019-08-31T00:00:00+00:00</updated><id>/eric/2019/08/31/arkit-project-ar-coreml-3</id><content type="html" xml:base="/eric/2019/08/31/arkit-project-ar-coreml-3.html">&lt;p&gt;今天我们来研究下另外一个项目的代码： Gesture-Recognition-101-CoreML-ARKit。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="/eric/feed.xml" rel="self" type="application/atom+xml" /><link href="/eric/" rel="alternate" type="text/html" /><updated>2019-09-12T15:25:20+00:00</updated><id>/eric/feed.xml</id><title type="html">Eric’s Study Notes</title><subtitle>Learning notes for AI, Machine Learning, Knowledge Management, Study Efficiency.</subtitle><entry><title type="html">Arkit Project Abc</title><link href="/eric/2019/09/12/arkit-project-abc.html" rel="alternate" type="text/html" title="Arkit Project Abc" /><published>2019-09-12T00:00:00+00:00</published><updated>2019-09-12T00:00:00+00:00</updated><id>/eric/2019/09/12/arkit-project-abc</id><content type="html" xml:base="/eric/2019/09/12/arkit-project-abc.html">&lt;p&gt;今天我们来看一下，不同的模型会提供什么样的接口供我们使用。&lt;/p&gt;
+
+&lt;p&gt;我选中的模型是YOLOv3，之所以选择这个模型完全是被它的外观吸引过去的。所以就想看看那个外观和模型本身有没有关系。&lt;/p&gt;
+
+&lt;p&gt;还记得那部美剧吗？《疑犯追踪》，没错，就是它了，里边的一些桥段显示出来的场景就是这个样子的。&lt;/p&gt;
+
+&lt;p&gt;我打开了上次的那个空的默认的arkit的项目，并且通过拖拽的方式往里边添加了YOLOv3的模型，我注意到里边为这个模型生成了新的代码。&lt;/p&gt;
+
+&lt;p&gt;我对比了两个模型自动生成的代码，发现了他们内部的结构和提供的接口基本都一样，但是接口所能接受的参数类型以及接口内部具体的实现还是有差别的。&lt;/p&gt;
+
+&lt;p&gt;所以，现在我要做的事情就是替换原来在项目Gesture-Recognition-101-CoreML-ARKit中自带的模型example_5s0_hand_model,取而代之的是YOLOv3。&lt;/p&gt;
+
+&lt;p&gt;我需要做的事情就是适配新的模型。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;一旦我替换完模型之后，项目会立刻报错，说原来的模型找不到了，很正常。找到模型使用的地方，直接替换名字。&lt;/li&gt;
+  &lt;li&gt;因为YOLOv3只有12.0以上的版本才支持，所以继续抱怨版本的问题，所以，我就调整了target的版本到12.0. build一下子成功了。&lt;/li&gt;
+  &lt;li&gt;因为没check模型的输出结果，直接导致数组访问越界。所以尝试添加如下代码。
+    &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;the request is: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+        
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;找到一个很好的例子可以获得我们想要的效果：https://github.com/tucan9389/ObjectDetection-CoreML.git&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;类型转换 as?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;但是问题在于要使用这个模型需要使用所谓的boxview，而原来我们的这个项目里边是没有boxview这个东西的，所以现在不得不面对storyboard和view的相关知识，这里有个扫盲性质的介绍，可以参考一下。https://juejin.im/post/5a6b173c6fb9a01cbf3891b7&lt;/p&gt;
+
+&lt;h3 id=&quot;做了以下几件事情总算把程序调出来了&quot;&gt;做了以下几件事情，总算把程序调出来了&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;原来的工程被我破坏的太厉害，以至于原来的故事板都乱了，所以我就新建了一个arkit的工程，从头开始&lt;/li&gt;
+  &lt;li&gt;模仿上述github上的项目，在新创建的工程的故事板上添加了相关的组件，包括
+    &lt;ul&gt;
+      &lt;li&gt;一个View
+        &lt;ul&gt;
+          &lt;li&gt;重新命名这个view为boxes view （名字不指定，不知道有没有问题）&lt;/li&gt;
+          &lt;li&gt;将其对应的class指定为上面github项目中创建的DrawingBoundingBoxView。（这一部分的实现还要继续看）
+            &lt;ul&gt;
+              &lt;li&gt;这个类的主要作用就是将识别出来的物体用方框框起来&lt;/li&gt;
+              &lt;li&gt;在方框上加上相应的label&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;一个Table View
+        &lt;ul&gt;
+          &lt;li&gt;table view的图层和scene view对应的图层是重叠的，所以就存在需要把table view调到前台的需要&lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;      &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sceneView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;bringSubviewToFront&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;boxesView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;table里的cell。在我运行项目的时候，总是发生uncached exception：
+        &lt;blockquote&gt;
+          &lt;p&gt;tableView:numberOfRowsInSection:]: unrecognized selector sent to instance&lt;/p&gt;
+        &lt;/blockquote&gt;
+
+        &lt;p&gt;一直不太明白这个错误的含义，很是抓狂，从字面的意思来看，根本看不出来是什么意思。
+  参考了开发文档之后，终于得解。 
+  我们在前面构建故事板的时候，指定了table view的data source是viewController，所以作为data source的viewController必须要遵从UITableViewDataSource的协议/规定/需求，开发文档中指出，实现UITableViewDataSource的类必须要实现两个方法，即下面代码片段中，提到的两个方法。&lt;/p&gt;
+
+        &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UITableViewDataSource&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UITableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numberOfRowsInSection&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;predictions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+      &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UITableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cellForRowAt&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;IndexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UITableViewCell&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;cell&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;dequeueReusableCell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;withIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;InfoCell&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+              &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UITableViewCell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+          &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+          &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rectString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;predictions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;boundingBox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;confidence&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;predictions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;confidence&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;??&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;confidenceString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;%.3f&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;confidence&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*Math.sigmoid(confidence)*/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+          &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;textLabel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;predictions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;??&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;N/A&quot;&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;detailTextLabel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rectString&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;confidenceString&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;UITableViewDataSource的介绍
+   它是一个protocol
+   这里不得不提及protocol的概念：
+   protocol就像是一个蓝图，它定义了需求。
+   一个类，数据结构可以实现这个需求。&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;事实证明模型并不能决定显示出来的效果是什么样子具体显示的效果是要通过不同的view来控制的&quot;&gt;事实证明：模型并不能决定显示出来的效果是什么样子。具体显示的效果是要通过不同的view来控制的。&lt;/h3&gt;
+&lt;p&gt;在本例中，通过boxview（UIView）实现了我们想要的带框框和标签的效果。我们将其和viewController关联起来，然后在ViewController中将数据提供给boxview，让它去负责数据的呈现。&lt;/p&gt;</content><author><name></name></author><summary type="html">今天我们来看一下，不同的模型会提供什么样的接口供我们使用。</summary></entry><entry><title type="html">Arkit Project Ar Coreml 3</title><link href="/eric/2019/08/31/arkit-project-ar-coreml-3.html" rel="alternate" type="text/html" title="Arkit Project Ar Coreml 3" /><published>2019-08-31T00:00:00+00:00</published><updated>2019-08-31T00:00:00+00:00</updated><id>/eric/2019/08/31/arkit-project-ar-coreml-3</id><content type="html" xml:base="/eric/2019/08/31/arkit-project-ar-coreml-3.html">&lt;p&gt;今天我们来研究下另外一个项目的代码： Gesture-Recognition-101-CoreML-ARKit。&lt;/p&gt;
 
 &lt;p&gt;这个项目的主要功能：捕捉手势，在屏幕的中央来显示对应的动画手势。&lt;/p&gt;
 
